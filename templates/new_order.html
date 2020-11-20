@@ -1,0 +1,67 @@
+{% include 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="container" style="max-width: 700px;padding-top: 60px;">
+        <h3>Add Request</h3>
+        <form method="post" action="{% url 'save_order' %}">
+        {% csrf_token %}
+            <div class="col-md-12 row" style="margin-top: 12px;">
+                <div class="col-md-4">
+                    <label>
+                        Request Type :
+                    </label>
+                </div>
+                <div class="col-md-8" style="margin-top: 12px;">
+                    {% for val in data.order_type %}
+                        <input class="radio" type="radio" id="{{ val  }}" name="order-type" value="{{ val }}" {% if forloop.first %}checked{% endif %}>
+                        <label for="{{ val }}">{{ val }}</label>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="row col-md-12" style="margin-top: 12px;">
+                <label class="col-md-4">
+                    Request Desc :
+                </label>
+                <textarea rows="1" name="order-desc" class="form-control col-md-8" required></textarea>
+            </div>
+            <div class="col-md-12 row" style="margin-top: 12px;">
+                <label class="col-md-4">
+                    City :
+                </label>
+                <input type="text" name="city" class="col-md-8 form-control" required>
+            </div>
+            <div class="col-md-12 row" style="margin-top: 12px;">
+                <label class="col-md-4">
+                    State :
+                </label>
+                <select name="state" required class="col-md-8 form-control">
+                    {% for val in data.states %}
+                    <option value="{{ val.0 }}">{{ val.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-12 row" style="margin-top: 12px;">
+                <label class="col-md-4">
+                    Pincode :
+                </label>
+                <input type="number" name="pincode" class="col-md-8 form-control" required>
+            </div>
+            <div class="col-md-12 row" style="margin-top: 12px;">
+                <label class="col-md-4">Alternative Number :</label>
+                <select name="code" class="form-control col-md-2">
+                    <option value="+91">+91</option>
+                    <option value="+1">+1</option>
+                    <option value="+351">+351</option>
+                    <option value="+51">+51</option>
+                </select>
+                <input type="number" name="mobile" class="col-md-6 form-control" required>
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn-primary btn-sm" style="float: right;margin-top: 27px;margin-right: 16px;">Submit</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

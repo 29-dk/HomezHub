@@ -1,0 +1,46 @@
+{% include 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="container" style="max-width: 900px;padding-top: 60px;">
+        <h4>Request List</h4>
+        <table id="order-table" class="table">
+        <tr>
+            <th>Request Id</th>
+            <th>Request Type</th>
+            <th>Request Desc</th>
+            <th>Request Date</th>
+            <th>Request Status</th>
+            <th>Action</th>
+        </tr>
+        {% for x in data %}
+            <tr>
+                <td>{{ x.id }}</td>
+                <td>{{ x.type }}</td>
+                <td>{{ x.desc }}</td>
+                <td>{{ x.date }}</td>
+                <td>{{ x.status }}</td>
+                <td>{{ x.action|safe }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+        <a href="{% url 'new_order' %}" target="_blank">New Request</a>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+
+        $(document).on('click','.edit-order',function(e){
+            var orderId = $(this).data('id');
+
+
+        });
+
+        $(document).on('click','.view-order',function(e){
+            var orderId = $(this).data('id');
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% include 'base.html' %}
+{% load static %}
+
+
+{% block body %}
+        <div class="container" style="max-width: 520px;margin-top: 60px;">
+            <h4>Request Status Page</h4>
+            <div class="col-md-12 row form-control" style="margin-top: 12px;">
+                <label class="col-md-4">
+                Request Type :
+                </label>
+                <label class="col-md-6">
+                    {{ data.type }}
+                </label>
+            </div>
+            <div class="col-md-12 row form-control" style="margin-top: 12px;">
+                <label class="col-md-4">
+                City :
+                </label>
+                <label class="col-md-6">
+                    {{ data.city }}
+                </label>
+            </div>
+            <div class="col-md-12 row form-control" style="margin-top: 12px;">
+                <label class="col-md-4">
+                State :
+                </label>
+                <label class="col-md-6">
+                    {{ data.state }}
+                </label>
+            </div>
+            <div class="col-md-12 row form-control" style="margin-top: 12px;">
+                <label class="col-md-4">
+                Pincode :
+                </label>
+                <label class="col-md-6">
+                    {{ data.pin }}
+                </label>
+            </div>
+            <div class="col-md-12 row form-control" style="margin-top: 12px;">
+                <label class="col-md-4">
+                Alternative Phone No. :
+                </label>
+                <label class="col-md-6">
+                    {{ data.alt }}
+                </label>
+            </div>
+            <div class="col-md-12 row form-control" style="margin-top: 12px;">
+                <label class="col-md-4">
+                Status :
+                </label>
+                <label class="col-md-6">
+                    {% if data.status %}{{ data.status }}{% endif %}
+                </label>
+            </div>
+            <div class="col-md-12 row form-control" style="margin-top: 12px;">
+                <label class="col-md-4">
+                Remarks :
+                </label>
+                <label class="col-md-6">
+                    {{ data.remarks }}
+                </label>
+            </div>
+        <form method="post" action="{% url 'orders' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary" style="margin-top: 12px;margin-right:12px;float: right">Back</button>
+        </form>
+        </div>
+{% endblock %}
+

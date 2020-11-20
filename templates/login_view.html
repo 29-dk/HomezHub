@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomzHub</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container" style="max-width: 520px;padding-top: 60px;">
+        <form method="post" id="login-form" action="{% url 'login_view' %}">
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+          </div>
+          <div class="form-group"><label><code>{{ error }}</code></label></div>
+          <div class="form-group">
+            <label for="exampleInputPassword1"><a id="register" href="#" data-toggle="modal" data-target="#register-modal">Register</a></label>
+            <button type="submit" class="btn btn-primary" style="float: right">Submit</button>
+          </div>
+        </form>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+          style="display: none;" id="register-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="mySmallModalLabel">Sign Up Form</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="register-form">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <label for="exampleInputName">Name<code>*</code></label>
+                    <input type="text" class="form-control" id="exampleInputName" name="name" placeholder="Enter Name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail">Email<code>*</code></label>
+                    <input type="email" class="form-control" id="exampleInputEmail" name="email" placeholder="Enter Email" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="examplecontact" class="col-md-12">Contact Number<code>*</code> </label>
+                      <div class="col-md-12 row ">
+                          <select name="code" id="examplecontact" class="form-control col-md-4">
+                                <option value="+91">+91</option>
+                                <option value="+1">+1</option>
+                                <option value="+351">+351</option>
+                                <option value="+51">+51</option>
+                            </select>
+                            <input type="number" name="mobile" placeholder="Enter Contact Number" class="form-control col-md-8" required>
+                      </div>
+
+                  </div>
+                  <div class="form-group">
+                    <label for="password-input">Password<code>*</code></label>
+                    <input type="password" class="form-control" id="password-input" name="password" placeholder="Enter Password">
+                  </div>
+                  <div class="form-group">
+                    <label for="repassword-input">Re-Password<code>*</code></label>
+                    <input type="password" class="form-control" id="repassword-input" name="repassword" placeholder="Enter Password Again">
+                      <small><span id="re-password-msg"></span></small>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="float: right">Register</button>
+                  </div>
+                </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <script src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+        $(document).on('submit','#register-form',function (e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type : 'POST',
+                url  : '/register/',
+                data : formData,
+                success : function (r) {
+                    alert(r.msg);
+                    if(r.res){
+                        $('#register-form').trigger('reset');
+                        $('#register-modal').modal('hide');
+                        $('#re-password-msg').text('');
+                    }
+
+                }
+            })
+        });
+
+{#        $(document).on('submit','#login-form',function (e) {#}
+{#            e.preventDefault();#}
+{#            var formData = $(this).serialize();#}
+{##}
+{#            $.ajax({#}
+{#                type : 'POST',#}
+{#                url  : '/',#}
+{#                data : formData,#}
+{#                success : function (r) {#}
+{#                    if(r.res){#}
+{#                        var token = r.token;#}
+{#                        document.cookie = "token="+token;#}
+{#                        window.location.href='/orders/?token='+token;#}
+{#                    }#}
+{#                    else{#}
+{#                        alert(r.msg);#}
+{#                    }#}
+{##}
+{#                }#}
+{#            })#}
+{#        });#}
+
+        $(document).on('blur','#repassword-input',function () {
+            console.log('abcgf');
+            var repassword = $(this).val();
+            var password = $('#password-input').val();
+            var span = $('#re-password-msg');
+            console.log(repassword,password);
+            console.log(password === repassword);
+            if(password === repassword){
+                span.text('Password Matched!');
+                span.css('color','#2fa919');
+            }
+            else{
+                span.text('Password didn\'t match!');
+                span.css('color','#e72f2f');
+            }
+        });
+
+        $(document).on('input','#repassword-input',function () {
+            $('#re-password-msg').text('');
+        });
+
+    </script>
+</body>
+</html>
